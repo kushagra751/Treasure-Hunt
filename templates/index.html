@@ -2,52 +2,88 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Treasure Hunt in the Jungle</title>
+    <title>Treasure Hunt Game</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-    <div class="game-container">
-        <h1>🌴 Treasure Hunt in the Jungle 🌴</h1>
-        <p>Find hidden treasures! Avoid traps and collect as many treasures as you can!</p>
-        
-        <!-- Legend Section -->
-        <div id="legend">
-            <p><span class="emoji">💎</span> Treasure</p>
-            <p><span class="emoji">💀</span> Trap</p>
-            <p><span class="emoji">🌿</span> Empty</p>
-        </div>
-        
-        <div id="scoreboard">
-            <p>Score: <span id="score">0</span></p>
-            <p>Lives Left: <span id="lives">3</span></p>
-        </div>
+    <header>
+        <h1>Treasure Hunt Game</h1>
+        <p>💎 for treasure, 💀 for traps, 🌿 for empty spots</p>
+    </header>
 
-        <div id="grid">
-            <!-- 4x4 grid of tiles for digging -->
-            <div class="tile" data-index="0"></div>
-            <div class="tile" data-index="1"></div>
-            <div class="tile" data-index="2"></div>
-            <div class="tile" data-index="3"></div>
-            <div class="tile" data-index="4"></div>
-            <div class="tile" data-index="5"></div>
-            <div class="tile" data-index="6"></div>
-            <div class="tile" data-index="7"></div>
-            <div class="tile" data-index="8"></div>
-            <div class="tile" data-index="9"></div>
-            <div class="tile" data-index="10"></div>
-            <div class="tile" data-index="11"></div>
-            <div class="tile" data-index="12"></div>
-            <div class="tile" data-index="13"></div>
-            <div class="tile" data-index="14"></div>
-            <div class="tile" data-index="15"></div>
+    <section class="game-board" id="game-board"></section>
+
+    <button id="restart-button" onclick="initGame()">Restart Game</button>
+
+    <!-- About Developer Section -->
+    <footer>
+        <div class="about-developer">
+            <h2>About the Developer</h2>
+            <p>Created by Kushagra, passionate about web development and gaming. Connect with me:</p>
+            <div class="social-links">
+                <a href="https://github.com/kushagra751" target="_blank" title="GitHub">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="GitHub Logo">
+                </a>
+                <a href="https://www.instagram.com/kush18._/" target="_blank" title="Instagram">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram Logo">
+                </a>
+            </div>
         </div>
+    </footer>
 
-        <!-- Animated Restart Button -->
-        <button id="restart-button" onclick="startGame()">🔄 Restart Game</button>
-    </div>
+    <script>
+        const boardSize = 5;
+        const treasures = 3;
+        const traps = 3;
+        let board = [];
 
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script></body>
+        function initGame() {
+            board = Array.from({ length: boardSize }, () => Array(boardSize).fill('🌿'));
+            placeRandomItems('💎', treasures);
+            placeRandomItems('💀', traps);
+            renderBoard();
+        }
+
+        function placeRandomItems(item, count) {
+            let placed = 0;
+            while (placed < count) {
+                const x = Math.floor(Math.random() * boardSize);
+                const y = Math.floor(Math.random() * boardSize);
+                if (board[x][y] === '🌿') {
+                    board[x][y] = item;
+                    placed++;
+                }
+            }
+        }
+
+        function renderBoard() {
+            const gameBoard = document.getElementById("game-board");
+            gameBoard.innerHTML = '';
+            board.forEach((row, x) => {
+                row.forEach((cell, y) => {
+                    const cellDiv = document.createElement("div");
+                    cellDiv.classList.add("cell");
+                    cellDiv.innerText = cell === '🌿' ? '❔' : cell;
+                    cellDiv.onclick = () => revealCell(x, y);
+                    gameBoard.appendChild(cellDiv);
+                });
+            });
+        }
+
+        function revealCell(x, y) {
+            const cell = board[x][y];
+            if (cell === '💎') {
+                alert("You found a treasure! 🎉");
+            } else if (cell === '💀') {
+                alert("Oh no, it's a trap! 💥");
+            }
+            board[x][y] = cell; 
+            renderBoard();
+        }
+
+        window.onload = initGame;
+    </script>
+</body>
 </html>
 
 
