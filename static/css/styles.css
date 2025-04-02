@@ -1,58 +1,77 @@
 body {
-    background-color: #14161b;
-    color: #fff;
-    font-family: 'Poppins', Arial, sans-serif;
+    background: url('https://images.unsplash.com/photo-1508739773434-c26b3d09e917?q=80&w=2070&auto=format&fit=crop') no-repeat center center fixed;
+    background-size: cover;
+    margin: 0;
+    padding: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    margin: 0;
-    padding: 20px;
-    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7); /* Dark overlay for contrast */
+    z-index: -1;
 }
 
 .game-container {
-    max-width: 800px;
+    max-width: 700px;
     width: 100%;
+    background: rgba(20, 22, 27, 0.9); /* Semi-transparent dark background */
+    padding: 20px;
+    border-radius: 15px;
     text-align: center;
+    color: #fff;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
 h1 {
-    font-size: 24px;
-    margin-bottom: 10px;
+    font-size: 28px;
     color: #00e701;
+    margin-bottom: 15px;
 }
 
 .bet-section {
-    background: #1c1f26;
-    padding: 15px;
-    border-radius: 10px;
-    margin-bottom: 20px;
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
-    gap: 10px;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .bet-section label {
     font-size: 14px;
     color: #a1a1a1;
+    margin-bottom: 5px;
 }
 
 .bet-section input {
-    background: #14161b;
+    background: #1c1f26;
     border: 1px solid #333;
     color: #fff;
     padding: 8px;
     border-radius: 5px;
-    width: 80px;
+    width: 100px;
     font-size: 14px;
+    text-align: center;
 }
 
 #grid {
     display: grid;
     grid-template-columns: repeat(5, 60px);
-    gap: 5px;
+    gap: 8px;
     justify-content: center;
     margin: 20px auto;
 }
@@ -67,7 +86,7 @@ h1 {
     font-size: 24px;
     cursor: pointer;
     border-radius: 10px;
-    transition: background 0.3s;
+    transition: all 0.3s ease;
 }
 
 .tile.revealed {
@@ -86,7 +105,7 @@ h1 {
 .controls {
     display: flex;
     justify-content: center;
-    gap: 10px;
+    gap: 15px;
     margin-top: 20px;
 }
 
@@ -94,12 +113,12 @@ button {
     background: #00e701;
     color: #000;
     border: none;
-    padding: 10px 20px;
+    padding: 12px 25px;
     border-radius: 25px;
     font-size: 16px;
-    font-weight: bold;
+    font-weight: 600;
     cursor: pointer;
-    transition: background 0.3s;
+    transition: background 0.3s ease;
 }
 
 button:disabled {
@@ -113,14 +132,14 @@ button:hover:not(:disabled) {
 }
 
 .stats {
-    margin: 10px 0;
-    font-size: 14px;
+    margin: 15px 0;
+    font-size: 16px;
     color: #a1a1a1;
 }
 
 .stats span {
     color: #fff;
-    font-weight: bold;
+    font-weight: 600;
 }
 
 .about-developer {
