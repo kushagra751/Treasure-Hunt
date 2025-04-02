@@ -1,66 +1,143 @@
 body {
-    background-color: #1a1a1a;
+    background-color: #14161b;
     color: #fff;
-    font-family: Arial, sans-serif;
+    font-family: 'Poppins', Arial, sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
     margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
 .game-container {
+    max-width: 800px;
+    width: 100%;
     text-align: center;
-    background: #2a2a2a;
-    padding: 20px;
+}
+
+h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #00e701;
+}
+
+.bet-section {
+    background: #1c1f26;
+    padding: 15px;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+.bet-section label {
+    font-size: 14px;
+    color: #a1a1a1;
+}
+
+.bet-section input {
+    background: #14161b;
+    border: 1px solid #333;
+    color: #fff;
+    padding: 8px;
+    border-radius: 5px;
+    width: 80px;
+    font-size: 14px;
 }
 
 #grid {
     display: grid;
-    grid-template-columns: repeat(4, 60px);
+    grid-template-columns: repeat(5, 60px);
     gap: 5px;
+    justify-content: center;
     margin: 20px auto;
 }
 
 .tile {
     width: 60px;
     height: 60px;
-    background: #333;
+    background: #1c1f26;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 24px;
     cursor: pointer;
-    border-radius: 5px;
+    border-radius: 10px;
+    transition: background 0.3s;
 }
 
 .tile.revealed {
     cursor: default;
-    background: #444;
+}
+
+.tile.safe {
+    background: #00e701;
+    color: #000;
+}
+
+.tile.mine {
+    background: #ff4444;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
 }
 
 button {
-    background: #00ff00;
+    background: #00e701;
     color: #000;
     border: none;
     padding: 10px 20px;
-    margin: 5px;
-    border-radius: 5px;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: bold;
     cursor: pointer;
+    transition: background 0.3s;
 }
 
 button:disabled {
-    background: #666;
+    background: #333;
+    color: #666;
     cursor: not-allowed;
 }
 
-#settings, #legend, #scoreboard {
+button:hover:not(:disabled) {
+    background: #00cc00;
+}
+
+.stats {
     margin: 10px 0;
+    font-size: 14px;
+    color: #a1a1a1;
+}
+
+.stats span {
+    color: #fff;
+    font-weight: bold;
+}
+
+.about-developer {
+    margin-top: 20px;
+    font-size: 12px;
+    color: #a1a1a1;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 5px;
 }
 
 .social-icon {
-    width: 30px;
-    height: 30px;
+    width: 20px;
+    height: 20px;
+    filter: invert(100%);
 }
