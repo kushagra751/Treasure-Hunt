@@ -4,66 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mines: Jungle Edition</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
     <div class="game-container">
         <h1>Mines: Jungle Edition</h1>
         
-        
         <div class="bet-section">
-            <div>
-                <label for="bet-amount">Bet Amount</label><br>
+            <div class="input-group">
+                <label for="bet-amount">Bet Amount</label>
                 <input type="number" id="bet-amount" min="1" value="10">
             </div>
-            <div>
-                <label for="mines-count">Mines (1-24)</label><br>
+            <div class="input-group">
+                <label for="mines-count">Mines (1-24)</label>
                 <input type="number" id="mines-count" min="1" max="24" value="5">
             </div>
         </div>
 
-        <!-- Stats -->
         <div class="stats">
-            <p>Profit: <span id="profit">0</span> | Multiplier: <span id="multiplier">1.00x</span></p>
+            <p>Profit: <span id="profit">0.00</span> | Multiplier: <span id="multiplier">1.00x</span></p>
         </div>
 
-        <!-- Grid -->
-        <div id="grid">
-            <!-- 5x5 grid of tiles -->
-            <div class="tile" data-index="0"></div>
-            <div class="tile" data-index="1"></div>
-            <div class="tile" data-index="2"></div>
-            <div class="tile" data-index="3"></div>
-            <div class="tile" data-index="4"></div>
-            <div class="tile" data-index="5"></div>
-            <div class="tile" data-index="6"></div>
-            <div class="tile" data-index="7"></div>
-            <div class="tile" data-index="8"></div>
-            <div class="tile" data-index="9"></div>
-            <div class="tile" data-index="10"></div>
-            <div class="tile" data-index="11"></div>
-            <div class="tile" data-index="12"></div>
-            <div class="tile" data-index="13"></div>
-            <div class="tile" data-index="14"></div>
-            <div class="tile" data-index="15"></div>
-            <div class="tile" data-index="16"></div>
-            <div class="tile" data-index="17"></div>
-            <div class="tile" data-index="18"></div>
-            <div class="tile" data-index="19"></div>
-            <div class="tile" data-index="20"></div>
-            <div class="tile" data-index="21"></div>
-            <div class="tile" data-index="22"></div>
-            <div class="tile" data-index="23"></div>
-            <div class="tile" data-index="24"></div>
-        </div>
+        <div id="grid"></div>
 
-        <!-- Controls -->
         <div class="controls">
-            <button id="bet-button" onclick="startGame()">Bet</button>
-            <button id="cashout-button" onclick="cashOut()" disabled>Cash Out</button>
+            <button id="bet-button">Bet</button>
+            <button id="cashout-button" disabled>Cash Out</button>
         </div>
 
-        <!-- About Developer -->
         <div class="about-developer">
             <p>Developed by <strong>Kushagra</strong></p>
             <div class="social-links">
@@ -77,6 +46,6 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>
