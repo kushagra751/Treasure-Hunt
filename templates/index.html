@@ -4,63 +4,68 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mines: Jungle Edition</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="game-container">
-        <h1>💰 Mines: Jungle Edition 💰</h1>
-        <p>Uncover safe tiles to increase your multiplier. Avoid mines or cash out early!</p>
+        <h1>Mines: Jungle Edition</h1>
         
-        <!-- Settings Section -->
-        <div id="settings">
-            <label for="mines-count">Number of Mines (1-5):</label>
-            <input type="number" id="mines-count" min="1" max="5" value="3">
+        <!-- Bet Section -->
+        <div class="bet-section">
+            <div>
+                <label for="bet-amount">Bet Amount</label><br>
+                <input type="number" id="bet-amount" min="1" value="10">
+            </div>
+            <div>
+                <label for="mines-count">Mines (1-24)</label><br>
+                <input type="number" id="mines-count" min="1" max="24" value="5">
+            </div>
         </div>
 
-        <!-- Legend Section -->
-        <div id="legend">
-            <p><span class="emoji">✅</span> Safe Tile</p>
-            <p><span class="emoji">💀</span> Mine</p>
-            <p><span class="emoji">❓</span> Unrevealed</p>
-        </div>
-        
-        <div id="scoreboard">
-            <p>Score: <span id="score">0</span></p>
-            <p>Multiplier: <span id="multiplier">1.0x</span></p>
-            <p>Lives Left: <span id="lives">1</span></p> <!-- Simplified to 1 life -->
+        <!-- Stats -->
+        <div class="stats">
+            <p>Profit: <span id="profit">0</span> | Multiplier: <span id="multiplier">1.00x</span></p>
         </div>
 
+        <!-- Grid -->
         <div id="grid">
-            <!-- 4x4 grid of tiles -->
-            <div class="tile" data-index="0">❓</div>
-            <div class="tile" data-index="1">❓</div>
-            <div class="tile" data-index="2">❓</div>
-            <div class="tile" data-index="3">❓</div>
-            <div class="tile" data-index="4">❓</div>
-            <div class="tile" data-index="5">❓</div>
-            <div class="tile" data-index="6">❓</div>
-            <div class="tile" data-index="7">❓</div>
-            <div class="tile" data-index="8">❓</div>
-            <div class="tile" data-index="9">❓</div>
-            <div class="tile" data-index="10">❓</div>
-            <div class="tile" data-index="11">❓</div>
-            <div class="tile" data-index="12">❓</div>
-            <div class="tile" data-index="13">❓</div>
-            <div class="tile" data-index="14">❓</div>
-            <div class="tile" data-index="15">❓</div>
+            <!-- 5x5 grid of tiles -->
+            <div class="tile" data-index="0"></div>
+            <div class="tile" data-index="1"></div>
+            <div class="tile" data-index="2"></div>
+            <div class="tile" data-index="3"></div>
+            <div class="tile" data-index="4"></div>
+            <div class="tile" data-index="5"></div>
+            <div class="tile" data-index="6"></div>
+            <div class="tile" data-index="7"></div>
+            <div class="tile" data-index="8"></div>
+            <div class="tile" data-index="9"></div>
+            <div class="tile" data-index="10"></div>
+            <div class="tile" data-index="11"></div>
+            <div class="tile" data-index="12"></div>
+            <div class="tile" data-index="13"></div>
+            <div class="tile" data-index="14"></div>
+            <div class="tile" data-index="15"></div>
+            <div class="tile" data-index="16"></div>
+            <div class="tile" data-index="17"></div>
+            <div class="tile" data-index="18"></div>
+            <div class="tile" data-index="19"></div>
+            <div class="tile" data-index="20"></div>
+            <div class="tile" data-index="21"></div>
+            <div class="tile" data-index="22"></div>
+            <div class="tile" data-index="23"></div>
+            <div class="tile" data-index="24"></div>
         </div>
 
-        <!-- Buttons -->
-        <div id="controls">
-            <button id="start-button" onclick="startGame()">▶️ Start Game</button>
-            <button id="cashout-button" onclick="cashOut()" disabled>💸 Cash Out</button>
-            <button id="restart-button" onclick="restartGame()">🔄 Restart</button>
+        <!-- Controls -->
+        <div class="controls">
+            <button id="bet-button" onclick="startGame()">Bet</button>
+            <button id="cashout-button" onclick="cashOut()" disabled>Cash Out</button>
         </div>
 
-        <!-- About Developer Section -->
-        <div id="about-developer">
+        <!-- About Developer -->
+        <div class="about-developer">
             <p>Developed by <strong>Kushagra</strong></p>
-            <p>Connect with me on:</p>
             <div class="social-links">
                 <a href="https://github.com/kushagra751" target="_blank">
                     <img src="https://img.icons8.com/ios/452/github.png" alt="GitHub" class="social-icon">
@@ -72,6 +77,6 @@
         </div>
     </div>
 
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script src="script.js"></script>
 </body>
 </html>
