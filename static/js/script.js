@@ -1,93 +1,110 @@
-let betAmount = 10;
-let minesCount = 5;
-let mines = [];
-let revealedTiles = 0;
-let multiplier = 1.0;
-let profit = 0;
-let gameActive = false;
-const totalTiles = 25;
+document.addEventListener('DOMContentLoaded', () => {
+    const grid = document.getElementById('grid');
+    const betButton = document.getElementById('bet-button');
+    const cashoutButton = document.getElementById('cashout-button');
+    const profitDisplay = document.getElementById('profit');
+    const multiplierDisplay = document.getElementById('multiplier');
 
-function startGame() {
-    if (gameActive) return;
+    let betAmount = 10;
+    let minesCount = 5;
+    let mines = [];
+    let revealedTiles = 0;
+    let multiplier = 1.0;
+    let profit = 0;
+    let gameActive = false;
+    const totalTiles = 25;
 
-    // Reset game state
-    betAmount = parseFloat(document.getElementById("bet-amount").value) || 10;
-    minesCount = parseInt(document.getElementById("mines-count").value) || 5;
-    if (minesCount < 1 || minesCount > 24) minesCount = 5;
-    revealedTiles = 0;
-    multiplier = 1.0;
-    profit = 0;
-    gameActive = true;
-
-    document.getElementById("profit").textContent = profit.toFixed(2);
-    document.getElementById("multiplier").textContent = `${multiplier.toFixed(2)}x`;
-    document.getElementById("bet-button").disabled = true;
-    document.getElementById("cashout-button").disabled = false;
-
-    // Reset tiles
-    const tiles = document.querySelectorAll(".tile");
-    tiles.forEach(tile => {
-        tile.textContent = "";
-        tile.classList.remove("revealed", "safe", "mine");
-        tile.onclick = revealTile;
-    });
-
-    // Place mines randomly
-    mines = [];
-    while (mines.length < minesCount) {
-        const randomIndex = Math.floor(Math.random() * totalTiles);
-        if (!mines.includes(randomIndex)) mines.push(randomIndex);
+    // Generate 5x5 grid
+    for (let i = 0; i < totalTiles; i++) {
+        const tile = document.createElement('div');
+        tile.classList.add('tile');
+        tile.dataset.index = i;
+        grid.appendChild(tile);
     }
-}
 
-function revealTile(event) {
-    if (!gameActive) return;
+    function startGame() {
+        if (gameActive) return;
 
-    const tile = event.target;
-    const index = parseInt(tile.dataset.index);
+        betAmount = parseFloat(document.getElementById('bet-amount').value) || 10;
+        minesCount = parseInt(document.getElementById('mines-count').value) || 5;
+        if (minesCount < 1 || minesCount > 24) minesCount = 5;
 
-    if (tile.classList.contains("revealed")) return;
+        revealedTiles = 0;
+        multiplier = 1.0;
+        profit = 0;
+        gameActive = true;
 
-    tile.classList.add("revealed");
-    revealedTiles++;
+        profitDisplay.textContent = profit.toFixed(2);
+        multiplierDisplay.textContent = `${multiplier.toFixed(2)}x`;
+        betButton.disabled = true;
+        cashoutButton.disabled = false;
 
-    if (mines.includes(index)) {
-        tile.textContent = "💣";
-        tile.classList.add("mine");
-        endGame("Game Over! You hit a mine.");
-    } else {
-        tile.textContent = "💎";
-        tile.classList.add("safe");
-        updateMultiplier();
-        profit = betAmount * (multiplier - 1);
-        document.getElementById("profit").textContent = profit.toFixed(2);
-        document.getElementById("multiplier").textContent = `${multiplier.toFixed(2)}x`;
+        const tiles = document.querySelectorAll('.tile');
+        tiles.forEach(tile => {
+            tile.textContent = '';
+            tile.classList.remove('revealed', 'safe', 'mine');
+            tile.addEventListener('click', revealTile, { once: true });
+        });
 
-        if (revealedTiles === totalTiles - minesCount) {
-            endGame("You cleared the board!");
+        mines = [];
+        while (mines.length < minesCount) {
+            const randomIndex = Math.floor(Math.random() * totalTiles);
+            if (!mines.includes(randomIndex)) mines.push(randomIndex);
         }
     }
-}
 
-function updateMultiplier() {
-    // Simplified multiplier calculation (inspired by Stake Mines)
-    const safeTilesLeft = totalTiles - minesCount - revealedTiles + 1;
-    const riskFactor = minesCount / totalTiles;
-    multiplier = (1 / (safeTilesLeft / totalTiles)) * (1 + riskFactor);
-}
+    function revealTile(event) {
+        if (!gameActive) return;
 
-function cashOut() {
-    if (!gameActive) return;
-    endGame(`Cashed out with ${profit.toFixed(2)} profit at ${multiplier.toFixed(2)}x!`);
-}
+        const tile = event.target;
+        const index = parseInt(tile.dataset.index);
 
-function endGame(message) {
-    alert(message);
-    gameActive = false;
-    document.getElementById("bet-button").disabled = false;
-    document.getElementById("cashout-button").disabled = true;
-    document.querySelectorAll(".tile").forEach(tile => tile.onclick = null);
-}
+        if (tile.classList.contains('revealed')) return;
 
-// Initialize game on page load
-document.getElementById("bet-button").disabled = false;
+        tile.classList.add('revealed');
+        revealedTiles++;
+
+        if (mines.includes(index)) {
+            tile.textContent = '💣';
+            tile.classList.add('mine');
+            endGame('Game Over! You hit a mine.');
+        } else {
+            tile.textContent = '💎';
+            tile.classList.add('safe');
+            updateMultiplier();
+            profit = betAmount * (multiplier - 1);
+            profitDisplay.textContent = profit.toFixed(2);
+            multiplierDisplay.textContent = `${multiplier.toFixed(2)}x`;
+
+            if (revealedTiles === totalTiles - minesCount) {
+                endGame('You cleared the board!');
+            }
+        }
+    }
+
+    function updateMultiplier() {
+        const safeTilesLeft = totalTiles - minesCount - revealedTiles + 1;
+        const riskFactor = minesCount / totalTiles;
+        multiplier = (1 / (safeTilesLeft / totalTiles)) * (1 + riskFactor);
+    }
+
+    function cashOut() {
+        if (!gameActive) return;
+        endGame(`Cashed out with ${profit.toFixed(2)} profit at ${multiplier.toFixed(2)}x!`);
+    }
+
+    function endGame(message) {
+        alert(message);
+        gameActive = false;
+        betButton.disabled = false;
+        cashoutButton.disabled = true;
+        document.querySelectorAll('.tile').forEach(tile => tile.removeEventListener('click', revealTile));
+    }
+
+    // Event listeners
+    betButton.addEventListener('click', startGame);
+    cashoutButton.addEventListener('click', cashOut);
+
+    // Initial state
+    betButton.disabled = false;
+});
