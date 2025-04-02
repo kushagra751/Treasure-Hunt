@@ -4,35 +4,210 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mines: Jungle Edition</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            background-color: #14161b;
+            color: #fff;
+            font-family: 'Poppins', Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .game-container {
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #00e701;
+        }
+
+        .bet-section {
+            background: #1c1f26;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .bet-section label {
+            font-size: 14px;
+            color: #a1a1a1;
+        }
+
+        .bet-section input {
+            background: #14161b;
+            border: 1px solid #333;
+            color: #fff;
+            padding: 8px;
+            border-radius: 5px;
+            width: 80px;
+            font-size: 14px;
+        }
+
+        #grid {
+            display: grid;
+            grid-template-columns: repeat(5, 60px);
+            gap: 5px;
+            justify-content: center;
+            margin: 20px auto;
+        }
+
+        .tile {
+            width: 60px;
+            height: 60px;
+            background: #1c1f26;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: background 0.3s;
+        }
+
+        .tile.revealed {
+            cursor: default;
+        }
+
+        .tile.safe {
+            background: #00e701;
+            color: #000;
+        }
+
+        .tile.mine {
+            background: #ff4444;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        button {
+            background: #00e701;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:disabled {
+            background: #333;
+            color: #666;
+            cursor: not-allowed;
+        }
+
+        button:hover:not(:disabled) {
+            background: #00cc00;
+        }
+
+        .stats {
+            margin: 10px 0;
+            font-size: 14px;
+            color: #a1a1a1;
+        }
+
+        .stats span {
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .about-developer {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #a1a1a1;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 5px;
+        }
+
+        .social-icon {
+            width: 20px;
+            height: 20px;
+            filter: invert(100%);
+        }
+    </style>
 </head>
 <body>
     <div class="game-container">
         <h1>Mines: Jungle Edition</h1>
         
+        <!-- Bet Section -->
         <div class="bet-section">
-            <div class="input-group">
-                <label for="bet-amount">Bet Amount</label>
+            <div>
+                <label for="bet-amount">Bet Amount</label><br>
                 <input type="number" id="bet-amount" min="1" value="10">
             </div>
-            <div class="input-group">
-                <label for="mines-count">Mines (1-24)</label>
+            <div>
+                <label for="mines-count">Mines (1-24)</label><br>
                 <input type="number" id="mines-count" min="1" max="24" value="5">
             </div>
         </div>
 
+        <!-- Stats -->
         <div class="stats">
-            <p>Profit: <span id="profit">0.00</span> | Multiplier: <span id="multiplier">1.00x</span></p>
+            <p>Profit: <span id="profit">0</span> | Multiplier: <span id="multiplier">1.00x</span></p>
         </div>
 
-        <div id="grid"></div>
+        <!-- Grid -->
+        <div id="grid">
+            <!-- 5x5 grid of tiles -->
+            <div class="tile" data-index="0"></div>
+            <div class="tile" data-index="1"></div>
+            <div class="tile" data-index="2"></div>
+            <div class="tile" data-index="3"></div>
+            <div class="tile" data-index="4"></div>
+            <div class="tile" data-index="5"></div>
+            <div class="tile" data-index="6"></div>
+            <div class="tile" data-index="7"></div>
+            <div class="tile" data-index="8"></div>
+            <div class="tile" data-index="9"></div>
+            <div class="tile" data-index="10"></div>
+            <div class="tile" data-index="11"></div>
+            <div class="tile" data-index="12"></div>
+            <div class="tile" data-index="13"></div>
+            <div class="tile" data-index="14"></div>
+            <div class="tile" data-index="15"></div>
+            <div class="tile" data-index="16"></div>
+            <div class="tile" data-index="17"></div>
+            <div class="tile" data-index="18"></div>
+            <div class="tile" data-index="19"></div>
+            <div class="tile" data-index="20"></div>
+            <div class="tile" data-index="21"></div>
+            <div class="tile" data-index="22"></div>
+            <div class="tile" data-index="23"></div>
+            <div class="tile" data-index="24"></div>
+        </div>
 
+        <!-- Controls -->
         <div class="controls">
-            <button id="bet-button">Bet</button>
-            <button id="cashout-button" disabled>Cash Out</button>
+            <button id="bet-button" onclick="startGame()">Bet</button>
+            <button id="cashout-button" onclick="cashOut()" disabled>Cash Out</button>
         </div>
 
+        <!-- About Developer -->
         <div class="about-developer">
             <p>Developed by <strong>Kushagra</strong></p>
             <div class="social-links">
@@ -46,6 +221,100 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        let betAmount = 10;
+        let minesCount = 5;
+        let mines = [];
+        let revealedTiles = 0;
+        let multiplier = 1.0;
+        let profit = 0;
+        let gameActive = false;
+        const totalTiles = 25;
+
+        function startGame() {
+            if (gameActive) return;
+
+            // Reset game state
+            betAmount = parseFloat(document.getElementById("bet-amount").value) || 10;
+            minesCount = parseInt(document.getElementById("mines-count").value) || 5;
+            if (minesCount < 1 || minesCount > 24) minesCount = 5;
+            revealedTiles = 0;
+            multiplier = 1.0;
+            profit = 0;
+            gameActive = true;
+
+            document.getElementById("profit").textContent = profit.toFixed(2);
+            document.getElementById("multiplier").textContent = `${multiplier.toFixed(2)}x`;
+            document.getElementById("bet-button").disabled = true;
+            document.getElementById("cashout-button").disabled = false;
+
+            // Reset tiles
+            const tiles = document.querySelectorAll(".tile");
+            tiles.forEach(tile => {
+                tile.textContent = "";
+                tile.classList.remove("revealed", "safe", "mine");
+                tile.onclick = revealTile;
+            });
+
+            // Place mines randomly
+            mines = [];
+            while (mines.length < minesCount) {
+                const randomIndex = Math.floor(Math.random() * totalTiles);
+                if (!mines.includes(randomIndex)) mines.push(randomIndex);
+            }
+        }
+
+        function revealTile(event) {
+            if (!gameActive) return;
+
+            const tile = event.target;
+            const index = parseInt(tile.dataset.index);
+
+            if (tile.classList.contains("revealed")) return;
+
+            tile.classList.add("revealed");
+            revealedTiles++;
+
+            if (mines.includes(index)) {
+                tile.textContent = "💣";
+                tile.classList.add("mine");
+                endGame("Game Over! You hit a mine.");
+            } else {
+                tile.textContent = "💎";
+                tile.classList.add("safe");
+                updateMultiplier();
+                profit = betAmount * (multiplier - 1);
+                document.getElementById("profit").textContent = profit.toFixed(2);
+                document.getElementById("multiplier").textContent = `${multiplier.toFixed(2)}x`;
+
+                if (revealedTiles === totalTiles - minesCount) {
+                    endGame("You cleared the board!");
+                }
+            }
+        }
+
+        function updateMultiplier() {
+            // Simplified multiplier calculation (inspired by Stake Mines)
+            const safeTilesLeft = totalTiles - minesCount - revealedTiles + 1;
+            const riskFactor = minesCount / totalTiles;
+            multiplier = (1 / (safeTilesLeft / totalTiles)) * (1 + riskFactor);
+        }
+
+        function cashOut() {
+            if (!gameActive) return;
+            endGame(`Cashed out with ${profit.toFixed(2)} profit at ${multiplier.toFixed(2)}x!`);
+        }
+
+        function endGame(message) {
+            alert(message);
+            gameActive = false;
+            document.getElementById("bet-button").disabled = false;
+            document.getElementById("cashout-button").disabled = true;
+            document.querySelectorAll(".tile").forEach(tile => tile.onclick = null);
+        }
+
+        // Initialize game on page load
+        document.getElementById("bet-button").disabled = false;
+    </script>
 </body>
 </html>
