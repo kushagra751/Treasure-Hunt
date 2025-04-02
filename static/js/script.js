@@ -1,52 +1,79 @@
 let score = 0;
-let lives = 3;
-let treasures = [];
-let traps = [];
+let lives = 1;
+let multiplier = 1.0;
+let minesCount = 3;
+let mines = [];
+let revealedTiles = 0;
+const totalTiles = 16;
 
 function startGame() {
+    // Reset game state
     score = 0;
-    lives = 3;
+    lives = 1;
+    multiplier = 1.0;
+    revealedTiles = 0;
+    minesCount = parseInt(document.getElementById("mines-count").value);
     document.getElementById("score").textContent = score;
     document.getElementById("lives").textContent = lives;
-    treasures = generatePositions();
-    traps = generatePositions();
-    
-    document.querySelectorAll('.tile').forEach(tile => {
-        tile.classList.remove('digged');
-        tile.textContent = '';
-        tile.addEventListener('click', dig);
+    document.getElementById("multiplier").textContent = `${multiplier.toFixed(1)}x`;
+    document.getElementById("cashout-button").disabled = false;
+
+    // Reset tiles
+    const tiles = document.querySelectorAll(".tile");
+    tiles.forEach(tile => {
+        tile.textContent = "❓";
+        tile.classList.remove("revealed");
+        tile.onclick = revealTile;
     });
-}
 
-function generatePositions() {
-    const positions = new Set();
-    while (positions.size < 5) {
-        positions.add(Math.floor(Math.random() * 16));
+    // Place mines randomly
+    mines = [];
+    while (mines.length < minesCount) {
+        const randomIndex = Math.floor(Math.random() * totalTiles);
+        if (!mines.includes(randomIndex)) mines.push(randomIndex);
     }
-    return [...positions];
 }
 
-function dig(event) {
-    const index = parseInt(event.target.getAttribute('data-index'));
-    if (event.target.classList.contains('digged')) return;
+function revealTile(event) {
+    const tile = event.target;
+    const index = parseInt(tile.dataset.index);
 
-    event.target.classList.add('digged');
+    if (tile.classList.contains("revealed")) return;
 
-    if (treasures.includes(index)) {
-        event.target.textContent = "💎";
-        score += 10;
-        document.getElementById("score").textContent = score;
-    } else if (traps.includes(index)) {
-        event.target.textContent = "💀";
-        lives -= 1;
+    tile.classList.add("revealed");
+    revealedTiles++;
+
+    if (mines.includes(index)) {
+        tile.textContent = "💀";
+        lives--;
         document.getElementById("lives").textContent = lives;
-        if (lives === 0) {
-            alert("Game Over! Try again!");
-            document.querySelectorAll('.tile').forEach(tile => tile.removeEventListener('click', dig));
-        }
+        endGame("You hit a mine!");
     } else {
-        event.target.textContent = "🌿";
+        tile.textContent = "✅";
+        score += 10;
+        multiplier += 0.2 * minesCount; // Adjust multiplier based on risk
+        document.getElementById("score").textContent = score;
+        document.getElementById("multiplier").textContent = `${multiplier.toFixed(1)}x`;
+
+        if (revealedTiles === totalTiles - minesCount) {
+            endGame("You uncovered all safe tiles!");
+        }
     }
 }
 
+function cashOut() {
+    endGame(`Cashed out with ${score} points and ${multiplier.toFixed(1)}x multiplier!`);
+}
+
+function endGame(message) {
+    alert(message);
+    document.getElementById("cashout-button").disabled = true;
+    document.querySelectorAll(".tile").forEach(tile => tile.onclick = null);
+}
+
+function restartGame() {
+    startGame();
+}
+
+// Initialize game on page load
 startGame();
